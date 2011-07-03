@@ -14,7 +14,7 @@
 //	HIGH		duration of shutter trigger high
 #define INTERVAL_HIGH	5
 #define INTERVAL_STATUS 200
-#define INTERVAL_WAIT	5000
+#define INTERVAL_WAIT	10000
 
 void setup() {
 	pinMode(PIN_STATUS, OUTPUT);
@@ -26,7 +26,7 @@ void loop() {
 	digitalWrite(PIN_SHUTTER, HIGH);
 	delay(INTERVAL_HIGH);
 	digitalWrite(PIN_SHUTTER, LOW);
-	delay(INTERVAL_STATUS-INTERVAL_SHUTTER);
+	delay(INTERVAL_STATUS-INTERVAL_HIGH);
 	digitalWrite(PIN_STATUS, LOW);
 	delay(INTERVAL_WAIT-INTERVAL_STATUS);
 }
