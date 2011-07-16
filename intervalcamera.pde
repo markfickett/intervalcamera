@@ -16,17 +16,15 @@
 #define INTERVAL_HIGH			10
 #define INTERVAL_STATUS 		200
 #define INTERVAL_WAIT			5000
-#define DELAY_RECORDER_INCREMENT	10
+#define DELAY_RECORDER_INCREMENT	1
 
-#define START_BEFORE			200
-#define END_AFTER			200
+#define START_BEFORE			30
+#define END_AFTER			160
 
 void setup() {
 	pinMode(PIN_STATUS, OUTPUT);
 	pinMode(PIN_SHUTTER_RECORDER, OUTPUT);
 	pinMode(PIN_SHUTTER_SUBJECT, OUTPUT);
-	Serial.begin(9600);
-	Serial.println("Starting.");
 	blinkSome();
 }
 
@@ -35,28 +33,22 @@ void loop() {
 		i += DELAY_RECORDER_INCREMENT)
 	{
 		digitalWrite(PIN_STATUS, HIGH);
-		Serial.print("i = ");
-		Serial.println(i);
 
 		if (i < 0) {
 			unsigned long d = (unsigned long)(-i);
-			Serial.println("recorder first");
 			digitalWrite(PIN_SHUTTER_RECORDER, HIGH);
-			delay(INTERVAL_HIGH);
-			digitalWrite(PIN_SHUTTER_RECORDER, LOW);
 			delay(d);
 			digitalWrite(PIN_SHUTTER_SUBJECT, HIGH);
 			delay(INTERVAL_HIGH);
+			digitalWrite(PIN_SHUTTER_RECORDER, LOW);
 			digitalWrite(PIN_SHUTTER_SUBJECT, LOW);
 		} else {
 			unsigned long d = (unsigned long)i;
-			Serial.println("subject first");
 			digitalWrite(PIN_SHUTTER_SUBJECT, HIGH);
-			delay(INTERVAL_HIGH);
-			digitalWrite(PIN_SHUTTER_SUBJECT, LOW);
 			delay(d);
 			digitalWrite(PIN_SHUTTER_RECORDER, HIGH);
 			delay(INTERVAL_HIGH);
+			digitalWrite(PIN_SHUTTER_SUBJECT, LOW);
 			digitalWrite(PIN_SHUTTER_RECORDER, LOW);
 		}
 
@@ -65,7 +57,6 @@ void loop() {
 
 		delay(INTERVAL_WAIT);
 	}
-	Serial.end();
 	while(true) {
 		blinkSome();
 	}
